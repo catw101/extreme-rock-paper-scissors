@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<!--Catelen Wu-->
+<html>
+	<head>
+		<title></title>
+		<script>
+			function initialize()
+			{
+				ROCK = 1;
+				PAPER = 2;
+				SCISSOR = 3;
+				playerScore = 0;
+				computerScore = 0;
+				playerscissors = 5;
+				playerpaper = 5;
+				playerrock = 5;
+				compscissors = 5;
+				comppaper = 5;
+				comprock = 5;
+				img1 = "rock.jpg";
+				img2 = "scissors.jpg";
+				img3 = "paper.jpg";
+				win = document.getElementById("winner");
+				playerWin = document.getElementById("playerscore");
+				compWin = document.getElementById("compscore");
+				choices = document.getElementById("choice");
+				compChoices = document.getElementById("compchoice");
+				pick = document.getElementById("picked");
+				compick = document.getElementById("compicked");
+				reaction = document.getElementById("referee_reaction");
+				rockNum = document.getElementById("numofrocks");
+				paperNum = document.getElementById("numofpaper");
+				scissorsNum = document.getElementById("numofscissors");
+				crockNum = document.getElementById("cnumofrocks");
+				cpaperNum = document.getElementById("cnumofpaper");
+				cscissorsNum = document.getElementById("cnumofscissors");
+				theWinner = document.getElementById("thewinner");
+			}
+			function game(choice)
+			{
+				if (choice == ROCK && playerrock <= 0 ||
+					choice == PAPER && playerpaper <= 0 ||
+					choice == SCISSOR && playerscissors <= 0)
+				  return;
+				playerChoice = choice;
+					if (playerChoice == ROCK)
+						pick.src = img1;
+					else if (playerChoice == SCISSOR)
+						pick.src = img2;
+					else
+						pick.src = img3;
+				randomChoice();
+				roundWin();
+				updateScore();
+				display();
+			}
+			function randomChoice()
+			{
+        computerChoice = parseInt(Math.random()*3)+1;
+				if (computerChoice == 1 && comprock <=0 ||
+					computerChoice == 2 && comppaper <=0 ||
+					computerChoice == 3 && compscissors <=0)
+ 				    randomChoice();
+				if (computerChoice == 1)
+				{
+					theirchoice = "rock.";
+					compick.src = img1;
+				}
+				else if (computerChoice == 2)
+				{
+					theirchoice = "paper.";
+					compick.src = img3;
+				}
+				else
+				{
+					theirchoice = "scissors.";
+					compick.src = img2;
+				}
+
+			}
+			function roundWin()
+			{
+				if (playerChoice == computerChoice)
+					{
+					roundWinner = "Tie!";
+					reaction.src = "referee_tie.jpg";
+					}
+				if (playerChoice == ROCK && computerChoice == SCISSOR)
+					{
+						playerWinsTheRound();
+						playerscissors += 1;
+						compscissors = compscissors - 1;
+						if (compscissors < 0)
+							compscissors = 0;
+					}
+				if (playerChoice == SCISSOR && computerChoice == PAPER)
+					{
+						playerWinsTheRound();
+						playerpaper += 1;
+						comppaper = comppaper - 1;
+						if (comppaper < 0)
+							comppaper = 0;
+					}
+				if (playerChoice == PAPER && computerChoice == ROCK)
+					{
+						playerWinsTheRound();
+						playerrock += 1;
+						comprock = comprock - 1;
+						if (comprock < 0)
+							comprock = 0;
+					}
+				if  (playerChoice == ROCK && computerChoice == PAPER)
+					{
+						compWinsTheRound();
+						playerrock = playerrock - 1;
+						comprock += 1;
+						if (playerrock < 0)
+							playerrock = 0;
+					}
+				if (playerChoice == PAPER && computerChoice == SCISSOR)
+					{
+						compWinsTheRound();
+						playerpaper = playerpaper - 1;
+						comppaper += 1;
+						if (playerpaper < 0)
+							playerpaper = 0;
+					}
+				if (playerChoice == SCISSOR && computerChoice == ROCK)
+					{
+						compWinsTheRound();
+						playerscissors = playerscissors - 1;
+						compscissors += 1;
+						if (playerscissors < 0)
+							playerscissors = 0;
+					}
+				}
+			function finalWinner()
+				{
+					if (playerrock == 0 && playerscissors == 0 && playerpaper == 0)
+						theWinner.innerHTML = "The computer won. Sorry, but feel free to try again!";
+					if (comprock == 0 && comprock == 0 && comppaper == 0)
+						theWinner.innerHTML = "You won! Congratulations!";
+				}
+
+			function playerWinsTheRound()
+			{
+				roundWinner = "Player won!";
+				reaction.src = "smile.jpg";
+			}
+			function compWinsTheRound()
+			{
+				roundWinner = "Computer won!";
+				reaction.src = "sad.jpg";
+			}
+			function updateScore()
+			{
+				if (roundWinner == "Player won!")
+					playerScore += 1;
+				if (roundWinner == "Computer won!")
+					computerScore += 1;
+			}
+			function choice(word)
+			{
+				choices.innerHTML = word;
+			}
+			function reset()
+			{
+				location.reload();
+			}
+			function display()
+			{
+				win.innerHTML = roundWinner;
+				playerWin.innerHTML = playerScore;
+				compWin.innerHTML = computerScore;
+				compChoices.innerHTML = theirchoice;
+				scissorsNum.innerHTML = playerscissors;
+				paperNum.innerHTML = playerpaper;
+				rockNum.innerHTML = playerrock;
+				cscissorsNum.innerHTML = compscissors;
+				cpaperNum.innerHTML = comppaper;
+				crockNum.innerHTML = comprock;
+			}
+		</script>
+		<style>
+		p {
+			font-family: Georgia;
+			font-size: 25pt;
+			color: brown;
+			text-align: center;
+		}
+		h1 {
+			color: green;
+			font-family: Georgia;
+			font-size: 20pt;
+		}
+		.player {
+			float: left;
+		}
+		.comp {
+			float: right;
+		}
+		.img {
+			text-align: center;
+		}
+		.img img {
+			width: 15%;
+			height: 15%;
+			cursor: pointer;
+		}
+		#button {
+			text-align: center;
+		}
+		button {
+			font-family: Georgia;
+			font-size: 15pt;
+			cursor: pointer;
+		}
+		#playerpicture {
+			float: left;
+		}
+		#picked {
+			width: 50%;
+			height: 50%;
+		}
+		#computerpicture {
+			float: right;
+		}
+		#compicked {
+			width: 50%;
+			height: 50%;
+		}
+		#referee {
+			text-align: center;
+		}
+		#referee_reaction {
+			width: 20%;
+			height: 20%;
+		}
+		</style>
+	</head>
+	<body onload="initialize();">
+	<div id = "button">
+		<button onclick = "reset();">RESTART GAME</button>
+	</div>
+	<div class = "player">
+	<h1>Player's Score: <span id = "playerscore">0</span></h1>
+	<h1>Rocks: <span id = "numofrocks">5</span></h1>
+	<h1>Paper: <span id = "numofpaper">5</span></h1>
+	<h1>Scissors: <span id = "numofscissors">5</span></h1>
+	</div>
+	<div class = "comp">
+	<h1>Computer's Score: <span id = "compscore">0</span></h1>
+	<h1>Rocks: <span id = "cnumofrocks">5</span></h1>
+	<h1>Paper: <span id = "cnumofpaper">5</span></h1>
+	<h1>Scissors: <span id = "cnumofscissors">5</h1>
+	</div>
+	<p>You chose <span id = "choice">? </span>The computer chose <span id = "compchoice">?</span></p>
+	<p id="thewinner"></p>
+	<div class = "img">
+	<img id = "rockpic"src = "rock.jpg" onclick = "game(ROCK); choice('rock. ');"/>
+	<img id = "paperpic" src = "paper.jpg" onclick = "game(PAPER); choice('paper. ');"/>
+	<img id = "scissorspic" src = "scissors.jpg" onclick = "game(SCISSOR); choice('scissors. ');"/>
+	</div>
+	<div>
+	<h6 id = "playerpicture"><img id = "picked"/></h6>
+	<h6 id = "computerpicture"><img id = "compicked"/></h6>
+	<h6 id = "referee"><img id = "referee_reaction"/></h6>
+	<p id = "winner"></p>
+	</div>
+	</body>
+</html>
